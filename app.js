@@ -5,8 +5,9 @@ const dotenv = require("dotenv")
 const express = require("express")
 dotenv.config()
 ConnectToMONGODB()
+const cors=require("cors")
 const app = express()
-app.use(cors())
+app.use(cors({origin:"*"}))
 app.use(express.json({ limit: '25mb' }));
 
 app.use('/user', userRouter)
@@ -18,5 +19,5 @@ app.get('/', async (req,res) => {
 
 const port=process.env.PORT || 3000
 app.listen(port, () => {
-    console.log(`https://localhost:${port}`)
+    console.log(`http://localhost:${port}`)
 })
