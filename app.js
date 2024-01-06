@@ -13,8 +13,8 @@ const app = express();
 dotenv.config();
 ConnectToMONGODB();
 app.use(cors({ origin: "*" }));
-// app.use(express.static("uploads"));
-// app.use(express.json({ limit: "25mb" }));
+app.use(express.static("uploads"));
+app.use(express.json({ limit: "25mb" }));
 // app.use(fileUpload());
 
 //Logging middleware
