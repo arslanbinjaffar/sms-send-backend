@@ -8,7 +8,7 @@ const router = Router()
 
 
 router.get('/getallgroups',getGroups)
-router.post('/upload',uploadFile)
+router.post('/upload',upload.single('file'),uploadFile)
 // router.post('/sendmessage',sendMessage)
 // router.post('/upload',uploadGroups)
 // router.post('/sendbulkmessages',bulkMessage)

@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {messageSender} from "../messageSender.js"
 import { Messages } from './../models/Message.js';
 const processCSVData = async (results) => {
-
     const newResults = results.map(result => ({
         ...result,
         id: uuidv4(),
@@ -26,9 +25,8 @@ const processCSVData = async (results) => {
 
 export const uploadFile = async (req, res) => {
     try {
-        upload.single('file')
         const results = [];
-        const fileData = fs.createReadStream(req.file);
+        const fileData = fs.createReadStream(req.file.path);
         if (!req.file) {
             return res.status(400).send('No file uploaded.');
         }
