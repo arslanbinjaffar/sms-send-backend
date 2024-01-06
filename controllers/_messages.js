@@ -5,6 +5,9 @@ import {upload} from "../utils/MulterStorage.js"
 import { v4 as uuidv4 } from 'uuid';
 import {messageSender} from "../messageSender.js"
 import { Messages } from './../models/Message.js';
+import axios from 'axios';
+
+
 const processCSVData = async (results) => {
     const newResults = results.map(result => ({
         ...result,
@@ -18,58 +21,75 @@ const processCSVData = async (results) => {
         const groupArr = newResults.slice(i, i + groupSize);
         groups.push({ users: groupArr });
     }
-    await Messages.deleteMany()
+
+    await Messages.deleteMany();
     const userMessage = await Messages.insertMany(groups);
     return userMessage;
 };
 
-export const uploadFile = async (req, res) => {
+export const fetchDataAndProcess = async (req,res) => {
     try {
+      const {url}=req.body
+        const response = await axios.get(url);
+
         const results = [];
-        const fileData = fs.createReadStream(req.file.path);
-        if (!req.file) {
-            return res.status(400).send('No file uploaded.');
+
+        if (!response.data) {
+            throw new Error("Empty response data");
         }
-        if (req.file.mimetype !== "text/csv") {
-            return res.status(400).send('File format must be CSV.');
-        }
-        fileData.pipe(csv())
-            .on('data', (data) => {
-                results.push(data);
-            })
-            .on('end', async () => {
-                if (results.length === 0) {
-                    return res.status(404).json({ message: "Empty file" });
-                }
-                await Messages.init().then(() => {
-                    console.log('Indexes created successfully');
-                }).catch(err => {
-                    console.error('Error creating indexes:', err);
+
+        const dataString = response.data.toString('utf-8');
+
+        // Using csv-parser to parse CSV data
+        const parser = csv({ headers: false, skip_empty_lines: true });
+        
+        return new Promise((resolve, reject) => {
+            parser
+                .on('data', (data) => {
+                    results.push(data);
+                })
+                .on('end', async () => {
+                    if (results.length === 0) {
+                        reject(new Error("Empty file"));
+                    }
+
+                    await Messages.init().then(() => {
+                        console.log('Indexes created successfully');
+                    }).catch(err => {
+                        console.error('Error creating indexes:', err);
+                    });
+
+                    const userMessage = await processCSVData(results);
+                    resolve(userMessage);
+                    res.status(200).json({message:"successfully",results:userMessage})
+                })
+                .on('error', (error) => {
+                    reject(error);
                 });
-                const userMessage = await processCSVData(results);
-                res.status(200).json({ success: true, results: userMessage, message: 'Groups added successfully' });
-            });
+
+            parser.write(dataString);
+            parser.end();
+
+        });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.log(error)
+        return res.status(500).json({message:`Error fetching and processing data: ${error.message}`})
     }
 };
 
-export const getGroups = async (req, res,next) => {
-    try {
-      const existingData = await Messages.findOne();
-      if (!existingData || existingData.length === 0) {
-        return res.status(404).json({ message: "No existing data" });
+
+export const getGroups = async(req,res) => {
+      try {
+          const existingData = await Messages.find()
+          if (!existingData && existingData.length == 0) {
+              return res.status(404).json({message:"there is no existing data"})
+          }
+          return res.status(200).json({message:"successfully get Groups",results:existingData})
+      } catch (error) {
+        return res.status(500).json({message:error.message})
       }
-  
-      return res.status(200).json({ results: existingData ,message:"successfully got groups"});
-    } catch (error) {
-        console.log("ERROR HERE")
-        next(error)
-    }
-  };
-  
-  
+  }
 
 // exports.sendMessage = async (req,res) => {
 //     try {
