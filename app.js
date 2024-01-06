@@ -5,14 +5,18 @@ const { Log } = require("./models/log");
 const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
 const express = require("express");
+const cors = require("cors");
+
+
+
+const app = express();
+
 dotenv.config();
 ConnectToMONGODB();
-const cors = require("cors");
-const app = express();
-app.use(express.static("uploads"));
-app.use(fileUpload());
 app.use(cors({ origin: "*" }));
-app.use(express.json({ limit: "25mb" }));
+app.use(express.static("uploads"));
+// app.use(express.json({ limit: "25mb" }));
+// app.use(fileUpload());
 
 //Logging middleware
 /**
@@ -39,10 +43,11 @@ const logMiddleware = async (req, res, next) => {
 
 // app.use(logMiddleware);
 
-app.use("/file", MessageRouter);
-app.use("/user", userRouter);
+// app.use("/file", MessageRouter);
+// app.use("/user", userRouter);
+
 app.get("/", async (req, res) => {
-  return res.send("hello world");
+  return res.status(200).json({message:"hello world"});
 });
 
 app.use(async (err, req, res, next) => {
