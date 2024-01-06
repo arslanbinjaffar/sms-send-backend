@@ -1,9 +1,9 @@
-// const userRouter = require("./routes/user");
-// const MessageRouter = require("./routes/Propermessage");
+import userRouter from "./routes/user.js";
+import MessageRouter from "./routes/Propermessage.js";
 import { ConnectToMONGODB } from "./db.js";
-// const { Log } = require("./models/log");
+import  { Log } from "./models/log.js";
 import dotenv from "dotenv"
-// const fileUpload = require("express-fileupload");
+import  fileUpload from "express-fileupload";
 import express from "express"
 import cors from "cors"
 
@@ -42,8 +42,8 @@ const logMiddleware = async (req, res, next) => {
 
 // app.use(logMiddleware);
 
-// app.use("/file", MessageRouter);
-// app.use("/user", userRouter);
+app.use("/file", MessageRouter);
+app.use("/user", userRouter);
 
 app.get("/", async (req, res) => {
   return res.status(200).json({message:"hello world"});

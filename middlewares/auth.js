@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-exports.authentication = (req,res,next) => {
+export const authentication = (req,res,next) => {
     try {
         const token = req.headers.authorization;
         const tokenParts = token.split(' ');

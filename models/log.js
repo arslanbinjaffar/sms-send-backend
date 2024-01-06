@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const logSchema = new Schema(
   {
@@ -7,4 +7,4 @@ const logSchema = new Schema(
   { timestamps: true }
 );
 
-exports.Log = model("logs", logSchema);
+export const Log = model("logs", logSchema);

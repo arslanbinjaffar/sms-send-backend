@@ -1,4 +1,4 @@
-var TeleSignSDK = require('telesignsdk');
+import TeleSignSDK from 'telesignsdk';
 
 
 const customerId = process.env.CUSTOMER_ID || "AD0FA3FD-EBA3-4622-A2B0-F059E12FFE80";
@@ -19,6 +19,6 @@ const customerId = process.env.CUSTOMER_ID || "AD0FA3FD-EBA3-4622-A2B0-F059E12FF
             }
         }
         
-exports.messageSender = async (phoneNumber) => {
+export const messageSender = async (phoneNumber) => {
             await client.sms.message(smsCallback, phoneNumber, message, messageType,sender_id);
         }

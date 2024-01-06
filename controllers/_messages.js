@@ -1,11 +1,10 @@
-const csv = require('csv-parser');
-const fs = require('fs');
-const { Messages } = require('../models/Message');
-const sdk = require('api')('@telesign-enterprise/v1.0#2ktvwloivj98o');
-const {upload}=require("../utils/MulterStorage")
-const busboy = require('busboy');
-const { v4: uuidv4 } = require('uuid');
-const {messageSender} =require("../messageSender")
+import csv from 'csv-parser';
+import fs from 'fs'
+// import * as sdk from 'api/@telesign-enterprise/v1.0';
+import {upload} from "../utils/MulterStorage.js"
+import { v4 as uuidv4 } from 'uuid';
+import {messageSender} from "../messageSender.js"
+import { Messages } from './../models/Message.js';
 const processCSVData = async (results) => {
 
     const newResults = results.map(result => ({
@@ -25,7 +24,7 @@ const processCSVData = async (results) => {
     return userMessage;
 };
 
-exports.uploadFile = async (req, res) => {
+export const uploadFile = async (req, res) => {
     try {
         upload.single('file')
         const results = [];
@@ -58,7 +57,7 @@ exports.uploadFile = async (req, res) => {
     }
 };
 
-exports.getGroups = async (req, res,next) => {
+export const getGroups = async (req, res,next) => {
     try {
       const existingData = await Messages.findOne();
       if (!existingData || existingData.length === 0) {
@@ -143,35 +142,35 @@ exports.getGroups = async (req, res,next) => {
 //     }
 // }
 
-exports.bulkMessage = async (req,res) => {
-    try {
-        let recipients = ""
-        const data = await Messages.findOne({ _id: "6596a9bb8b3b76e8631b8b68" })
-        data.users.forEach(({ Phone, id }) => {
-            const cleanedPhone = Phone.replace(/[()-]/g,'');
-            recipients += `+1${cleanedPhone}:${id},`;
-        });
-        console.log(recipients);
-        // recipients:"+13236062770:255E3E34382C0E049046BF14FF7F3435,+13236042424:255DEBF29DA410049042F97AF48F3D04,+13239260429:255DEBF22121212asas9DA410049042F97AF48F3D04,+13106067603:255DEBF29DA410049042F97AF48F3D04767776767yugug,13196967603:255DEBF29DA410049042F97AF48F3D04khjhkjhkhh",
-        // const numbers = ["13236062770", "13236042424", "13239260429"];
+// exports.bulkMessage = async (req,res) => {
+//     try {
+//         let recipients = ""
+//         const data = await Messages.findOne({ _id: "6596a9bb8b3b76e8631b8b68" })
+//         data.users.forEach(({ Phone, id }) => {
+//             const cleanedPhone = Phone.replace(/[()-]/g,'');
+//             recipients += `+1${cleanedPhone}:${id},`;
+//         });
+//         console.log(recipients);
+//         // recipients:"+13236062770:255E3E34382C0E049046BF14FF7F3435,+13236042424:255DEBF29DA410049042F97AF48F3D04,+13239260429:255DEBF22121212asas9DA410049042F97AF48F3D04,+13106067603:255DEBF29DA410049042F97AF48F3D04767776767yugug,13196967603:255DEBF29DA410049042F97AF48F3D04khjhkjhkhh",
+//         // const numbers = ["13236062770", "13236042424", "13239260429"];
 
-        sdk.auth('AD0FA3FD-EBA3-4622-A2B0-F059E12FFE80', 'jAGjWCOW+di/VHPxJOA8S90E4tIq0Fn6+4P6NRrXkxcng3dpkg8hptUj6z1Ny01n6VovThbLRE6GV6Qa0ZqOHQ==');
-                sdk.sendBulkSMS({
-            recipients:recipients,
-        template:'New Year New Me Grow your Hair Faster And Longer w/ code (healthy hair) 35% off @ ckout Shop Now http://hairspala.com Reply STOP to Stop'
-})
-            .then(({ data }) => {
-      res.status(200).json({message:data})
-  })
-            .catch(err =>
-            {    
-                res.status(404).json({ message: err })
-            }        
-    );
-    } catch (error) {
-        res.status(500).json({message:error.message})
-    }
-}
+//         sdk.auth('AD0FA3FD-EBA3-4622-A2B0-F059E12FFE80', 'jAGjWCOW+di/VHPxJOA8S90E4tIq0Fn6+4P6NRrXkxcng3dpkg8hptUj6z1Ny01n6VovThbLRE6GV6Qa0ZqOHQ==');
+//                 sdk.sendBulkSMS({
+//             recipients:recipients,
+//         template:'New Year New Me Grow your Hair Faster And Longer w/ code (healthy hair) 35% off @ ckout Shop Now http://hairspala.com Reply STOP to Stop'
+// })
+//             .then(({ data }) => {
+//       res.status(200).json({message:data})
+//   })
+//             .catch(err =>
+//             {    
+//                 res.status(404).json({ message: err })
+//             }        
+//     );
+//     } catch (error) {
+//         res.status(500).json({message:error.message})
+//     }
+// }
 
 
 

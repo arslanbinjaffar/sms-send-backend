@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
     email: {
@@ -12,4 +12,4 @@ const userSchema = new Schema({
     },
 });
 
-exports.User = model("users", userSchema);
+export const User = model("users", userSchema);

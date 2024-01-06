@@ -1,7 +1,6 @@
-const jwt = require("jsonwebtoken");
-const { User } = require("../models/user");
-
-exports.signUp = async (req,res) => {
+import jwt from "jsonwebtoken";
+import { User }  from  "../models/user.js";
+export const signUp = async (req,res) => {
     try {
         const {
             email,
@@ -58,7 +57,7 @@ exports.signUp = async (req,res) => {
 //                     res.status(500).json({ message: "Internal server error"+error });
 //     }
 // }
-exports.logIn = async (req, res) => {
+export const logIn = async (req, res) => {
     try {
         const { email, password } = req.body;
         const authorizeHeader = req.headers.authorization;

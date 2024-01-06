@@ -1,12 +1,10 @@
-const { authentication } = require("../middlewares/auth")
-const {logIn,signUp}=require("../controllers/user")
-const {Router}=require("express")
+import { authentication } from "../middlewares/auth.js"
+import {logIn,signUp} from "../controllers/user.js"
+import {Router}from "express"
 const router = Router()
 
 
 router.post("/signup",signUp)
 router.post("/login", authentication, logIn)
 
-
-
-module.exports=router
+export default router
