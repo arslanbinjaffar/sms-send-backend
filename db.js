@@ -1,5 +1,6 @@
-const { default: mongoose } = require("mongoose")
-exports.ConnectToMONGODB = () => {
+import mongoose from "mongoose"
+
+export const ConnectToMONGODB = () => {
     try {
         const URI = process.env.MONGO_URI
         mongoose.connect(URI)

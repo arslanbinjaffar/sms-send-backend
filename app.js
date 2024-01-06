@@ -1,12 +1,11 @@
-const userRouter = require("./routes/user");
-const MessageRouter = require("./routes/Propermessage");
-const { ConnectToMONGODB } = require("./db");
-const { Log } = require("./models/log");
-const dotenv = require("dotenv");
-const fileUpload = require("express-fileupload");
-const express = require("express");
-const cors = require("cors");
-
+// const userRouter = require("./routes/user");
+// const MessageRouter = require("./routes/Propermessage");
+import { ConnectToMONGODB } from "./db.js";
+// const { Log } = require("./models/log");
+import dotenv from "dotenv"
+// const fileUpload = require("express-fileupload");
+import express from "express"
+import cors from "cors"
 
 
 const app = express();
@@ -14,7 +13,7 @@ const app = express();
 dotenv.config();
 ConnectToMONGODB();
 app.use(cors({ origin: "*" }));
-app.use(express.static("uploads"));
+// app.use(express.static("uploads"));
 // app.use(express.json({ limit: "25mb" }));
 // app.use(fileUpload());
 
