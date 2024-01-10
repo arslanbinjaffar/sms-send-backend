@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js --watch"
+    "start": "node app.js --watch",
+    "dev": "nodemon app.js --watch"
   },
   "author": "",
   "license": "ISC",
