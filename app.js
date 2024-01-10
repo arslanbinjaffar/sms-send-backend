@@ -46,7 +46,7 @@ app.use("/file", MessageRouter);
 app.use("/client", userRouter);
 app.use("/admin",adminRouter)
 app.get("/", async (req, res) => {
-  return res.status(200).json({message:"hello world"});
+  return res.status(200).json({message:"HELLO AMAZON WEB SERVICES PIPELINES"});
 });
 
 app.use(async (err, req, res, next) => {
