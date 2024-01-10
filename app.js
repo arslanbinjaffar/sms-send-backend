@@ -6,7 +6,7 @@ import dotenv from "dotenv"
 import  fileUpload from "express-fileupload";
 import express from "express"
 import cors from "cors"
-
+import adminRouter from './routes/admin.js'
 
 const app = express();
 
@@ -43,8 +43,8 @@ const logMiddleware = async (req, res, next) => {
 // app.use(logMiddleware);
 
 app.use("/file", MessageRouter);
-app.use("/user", userRouter);
-
+app.use("/client", userRouter);
+app.use("/admin",adminRouter)
 app.get("/", async (req, res) => {
   return res.status(200).json({message:"hello world"});
 });

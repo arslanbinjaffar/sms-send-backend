@@ -14,12 +14,12 @@ export const signUp = async (req,res) => {
         const secret=process.env.JWT_SCERET || ""
         const payload = {
             email,
-            password,
+            role:"user"
         }
         const token =jwt.sign(payload, secret, { expiresIn: "1hr" })
         res.status(200).json({
             message: "signUp User successfully", success: true, result: true, result: {
-           email,token
+           email,token,role:"user"
         }})
     } catch (error) {
         if (error.name === "ValidationError") {
@@ -61,11 +61,9 @@ export const logIn = async (req, res) => {
     try {
         const { email, password } = req.body;
         const authorizeHeader = req.headers.authorization;
-
-        if (!authorizeHeader || !authorizeHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ message: 'Unauthorized: Missing or invalid token' });
-        }
-
+        // if (!authorizeHeader || !authorizeHeader.startsWith('Bearer')) {
+        //     return res.status(401).json({ message: 'Unauthorized: Missing or invalid token' });
+        // }
         const token = authorizeHeader.split(' ')[1];
         const secret = process.env.JWT_SCERET || '';
 
@@ -73,14 +71,10 @@ export const logIn = async (req, res) => {
 
         if (email === authorizeInfo.email && password === authorizeInfo.password) {
             const user = await User.findOne({ email: authorizeInfo.email, password: authorizeInfo.password });
-
-            if (user) {
-                return res.status(200).json({ message: 'Successfully logged in user', data: user });
-            } else {
-                return res.status(401).json({ message: 'Unauthorized: Invalid credentials' });
-            }
-        } else {
-            return res.status(401).json({ message: 'Unauthorized: Invalid credentials' });
+            if (!user) {
+                    return res.status(401).json({ message: 'Unauthorized: Invalid credentials' });
+                } 
+            return res.status(200).json({ message: 'Successfully logged in user', data: user });
         }
     } catch (error) {
         console.error('Error:', error);
