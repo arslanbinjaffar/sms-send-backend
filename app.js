@@ -1,12 +1,13 @@
 import userRouter from "./routes/user.js";
 import MessageRouter from "./routes/Propermessage.js";
 import { ConnectToMONGODB } from "./db.js";
-import  { Log } from "./models/log.js";
+import { Log } from "./models/log.js";
 import dotenv from "dotenv"
-import  fileUpload from "express-fileupload";
+// import  fileUpload from "express-fileupload";
 import express from "express"
 import cors from "cors"
 import adminRouter from './routes/admin.js'
+import  sendMessagesOnebyOne  from './sendmessages/sendmessage.js';
 
 const app = express();
 
@@ -44,7 +45,7 @@ const logMiddleware = async (req, res, next) => {
 
 app.use("/file", MessageRouter);
 app.use("/client", userRouter);
-app.use("/admin",adminRouter)
+app.use("/admin", adminRouter)
 app.get("/", async (req, res) => {
   return res.status(200).json({message:"HELLO AMAZON WEB SERVICES PIPELINES"});
 });

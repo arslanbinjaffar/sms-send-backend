@@ -132,16 +132,16 @@ export const sendBulkMessage = async (req,res) => {
         encodedParams.set('recipients',recipients);
         encodedParams.set('template', message);
         encodedParams.set('sender_id', '800');
-        const filePath = 'recipents.txt';
-          const content = recipients;
+        // const filePath = 'recipents.txt';
+        //   const content = recipients;
 
-          fs.writeFile(filePath, content, (err) => {
-            if (err) {
-              console.error('Error writing to file:', err);
-            } else {
-              console.log('File has been written successfully!');
-            }
-          });
+          // fs.writeFile(filePath, content, (err) => {
+          //   if (err) {
+          //     console.error('Error writing to file:', err);
+          //   } else {
+          //     console.log('File has been written successfully!');
+          //   }
+          // });
         const options = {  
           method: 'POST',
           url: 'https://rest-ww.telesign.com/v1/verify/bulk_sms',
