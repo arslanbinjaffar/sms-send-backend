@@ -4,9 +4,12 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "engines": {
+  "node": ">=14.x"
+    },
   "scripts": {
-    "start": "index.js --watch",
-    "dev": "nodemon index.js --watch",
+    "start": "node  server.js --watch",
+    "dev": "nodemon server.js --watch",
     "build": "cp -R src dist"
   },
   "author": "",
