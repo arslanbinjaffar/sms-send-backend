@@ -58,7 +58,7 @@ app.use(async (err, req, res, next) => {
   return res.status(500).json({ error: err });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 39000;
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
