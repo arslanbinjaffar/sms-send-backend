@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "index.js --watch",
-    "dev": "nodemon index.js --watch"
+    "dev": "nodemon index.js --watch",
+    "build": "cp -R src dist"
   },
   "author": "",
   "license": "ISC",
